@@ -4,6 +4,7 @@ retval=0
 
 # Get submodule contents
 git submodule init
+git submodule update
 
 # check for yaml
 perl -e "use YAML"
