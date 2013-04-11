@@ -1,12 +1,7 @@
-# ARD_HOME=/usr/share/arduino
-# ARD_BIN=/usr/bin
-# BOARD = uno
-# PORT = /dev/ttyUSB0
-# MON_SPEED = 115200
-# # INC_DIRS = ../common
-# # LIB_DIRS = ../libraries/Task ../../libraries/VirtualWire
-# include ../Makefile.master
-#
+# NOTE: you must either name your main file ending in .ino
+# 	or #include <Arduino.h> 
+# 	for things to compile correctly.
+
 BOARD_TAG=uno
 ARDUINO_PORT=/dev/ttyUSB*
 ARDUINO_DIR=/usr/share/arduino
