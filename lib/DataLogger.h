@@ -1,6 +1,11 @@
 #ifndef DATALOGGER_H
 #define DATALOGGER_H
 
+#include <Arduino.h>
+#include "Series.h"
+#include "Setting.h"
+#include "types.h"
+
 #ifndef NUM_SERIES
 #define NUM_SERIES 16
 #endif
@@ -9,12 +14,10 @@
 #define NUM_SETTINGS 16
 #endif
 
-typedef unsigned char byte;
-
 class DataLogger
 {
   public:
-    DataLogger() : series_cnt(0), settings_cnt(0) {}
+    DataLogger();
 
     byte addSeries(byte index, char* name);
     byte write(byte series, double value);
@@ -26,10 +29,11 @@ class DataLogger
     byte writeSettings();
 
   protected:
-    Series series[NUM_SERIES];
+    //TODO: Figure out a non-malloc approach to this, although malloc isn't /terrible/ here.
+    Series* series[NUM_SERIES];
     byte series_cnt;
 
-    Setting settings[NUM_SETTINGS];
+    Setting* settings[NUM_SETTINGS];
     byte settings_cnt;
 };
 
