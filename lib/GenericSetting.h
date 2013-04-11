@@ -8,7 +8,7 @@ template<class T>
 class GenericSetting: public Setting
 {
   public:
-    GenericSetting(char* name, T* variable): Setting(name), var(variable) {}
+    GenericSetting(char* name, byte type, T* variable): Setting(name, type), var(variable) {}
     byte parseData(char* data);
 
   private:

@@ -6,14 +6,16 @@
 class Setting
 {
   public:
-    Setting(char* n): name(n) {}
+    Setting(char* n, byte t): name(n),type(t) {}
 
     char* getName();
+    byte getType();
 
     virtual byte parseData(char* data) = 0;
 
-  private:
+  protected:
     char* name;
+    byte type;
 };
 
 #endif
