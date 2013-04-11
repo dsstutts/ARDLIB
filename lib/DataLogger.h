@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Series.h"
 #include "Setting.h"
+#include "GenericSetting.h"
 #include "types.h"
 
 #ifndef NUM_SERIES
@@ -29,6 +30,9 @@ class DataLogger
     byte writeSettings();
 
   protected:
+    //NOTE: may break if provided a non-dynamic setting
+    byte addSetting(byte index, Setting* setting);
+
     //TODO: Figure out a non-malloc approach to this, although malloc isn't /terrible/ here.
     Series* series[NUM_SERIES];
     byte series_cnt;
