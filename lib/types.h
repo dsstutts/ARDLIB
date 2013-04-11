@@ -7,5 +7,8 @@ typedef unsigned char byte;
 
 #define OUT_OF_RANGE -1;
 
+#define T_INT 0
+#define T_FLOAT 1
+
 #endif
 

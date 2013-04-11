@@ -35,9 +35,9 @@ byte DataLogger::addSeries(byte index, char* name)
 byte DataLogger::write(byte series, double value)
 {
   Serial.print(series);
-  Serial.print(",");
+  Serial.print(',');
   Serial.print(millis());
-  Serial.print(",");
+  Serial.print(',');
   Serial.println(value);
 
   return 0;
@@ -45,12 +45,12 @@ byte DataLogger::write(byte series, double value)
 
 byte DataLogger::addIntSetting(byte index, char* name, int* variable)
 {
-  return addSetting(index, new GenericSetting<int>(name, variable));
+  return addSetting(index, new GenericSetting<int>(name, T_INT, variable));
 }
 
 byte DataLogger::addFloatSetting(byte index, char* name, float* variable)
 {
-  return addSetting(index, new GenericSetting<float>(name, variable));
+  return addSetting(index, new GenericSetting<float>(name, T_FLOAT, variable));
 }
 
 byte DataLogger::addSetting(byte index, Setting* setting)
@@ -95,7 +95,9 @@ byte DataLogger::writeSettings()
     {
       Serial.print(i);
       Serial.print(',');
-      Serial.println(settings[i]->getName());
+      Serial.print(settings[i]->getName());
+      Serial.print(',');
+      Serial.println(settings[i]->getType());
     }
   }
 
