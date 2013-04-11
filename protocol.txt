@@ -1,0 +1,12 @@
+Output formats
+Series data:
+<series number>,<timestamp in ms>,<data point as a double>
+
+Series metadata:
+<series number>,<series name>
+
+Setting metadata:
+<setting number>,<setting name>,<setting type>
+	where setting type is one of the following:
+		0 - int
+		1 - float
