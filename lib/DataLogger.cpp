@@ -52,32 +52,26 @@ byte DataLogger::write(byte series, double value)
   return 0;
 }
 
-byte DataLogger::addIntSetting(byte index, char* name, int* variable)
+byte DataLogger::addIntSetting(char* name, int* variable)
 {
-  return addSetting(index, new GenericSetting<int>(name, T_INT, variable));
+  return addSetting(new GenericSetting<int>(name, T_INT, variable));
 }
 
-byte DataLogger::addFloatSetting(byte index, char* name, float* variable)
+byte DataLogger::addFloatSetting(char* name, float* variable)
 {
-  return addSetting(index, new GenericSetting<float>(name, T_FLOAT, variable));
+  return addSetting(new GenericSetting<float>(name, T_FLOAT, variable));
 }
 
-byte DataLogger::addSetting(byte index, Setting* setting)
+byte DataLogger::addSetting(Setting* setting)
 {
-  if(index >= NUM_SETTINGS)
+  if(settings_cnt++ >= NUM_SETTINGS)
   {
     delete setting; //NOTE: Could be BAD if passed a pointer to a non-dynamic object
+    settings_cnt--;
     return OUT_OF_RANGE;
   }
-  
-  if(settings[index] != NULL)
-  {
-    delete settings[index];
-    settings_cnt--;
-  }
-
-  settings[index] = setting;
-  settings_cnt++;
+ 
+  settings[settings_cnt] = setting;
 
   return 0;
 }

@@ -29,15 +29,15 @@ class DataLogger
     byte addSeries(byte index, char* name);
     byte write(byte series, double value);
 
-    byte addIntSetting(byte index, char* name, int* variable);
-    byte addFloatSetting(byte index, char* name, float* variable);
+    byte addIntSetting(char* name, int* variable);
+    byte addFloatSetting(char* name, float* variable);
     
     byte writeSeries();
     byte writeSettings();
 
   protected:
     //NOTE: may break if provided a non-dynamic setting
-    byte addSetting(byte index, Setting* setting);
+    byte addSetting(Setting* setting);
 
     //TODO: Figure out a non-malloc approach to this, although malloc isn't /terrible/ here.
     Series* series[NUM_SERIES];
