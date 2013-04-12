@@ -1,13 +1,19 @@
 #include "DataLogger.h"
 
-int val;
+int iset;
+float fset;
+
+DataLogger dl;
+
 void setup()
 {
-  val = 4;
+	dl.addSeries(0, "asdf");
+	dl.addIntSetting("intsetting", &iset);
+	dl.addFloatSetting("floatsetting", &fset);
 }
 
 void loop() 
 {
-  val++;
+	dl.write(0, 4.5);
 }
 
