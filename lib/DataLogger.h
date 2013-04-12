@@ -15,6 +15,12 @@
 #define NUM_SETTINGS 16
 #endif
 
+class DataLogger;
+
+extern DataLogger* __dl;
+
+void serialEvent();
+
 class DataLogger
 {
   public:

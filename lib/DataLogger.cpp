@@ -1,5 +1,12 @@
 #include "DataLogger.h"
 
+DataLogger* __dl = NULL;
+
+void serialEvent()
+{
+  Serial.println("WOOOOOOOO");
+}
+
 DataLogger::DataLogger(): series_cnt(0), settings_cnt(0) 
 {
   for(byte i = 0; i < NUM_SERIES; i++)
@@ -11,6 +18,8 @@ DataLogger::DataLogger(): series_cnt(0), settings_cnt(0)
   {
     settings[i] = NULL;
   }
+
+  __dl = this;
 }
 
 byte DataLogger::addSeries(byte index, char* name)
