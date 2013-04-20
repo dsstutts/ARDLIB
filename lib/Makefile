@@ -10,5 +10,13 @@ AVRDUDE_PATH=/usr/share/arduino/hardware/tools
 AVRDUDE=$(AVRDUDE_PATH)/avrdude
 AVRDUDE_CONF=$(AVRDUDE_PATH)/avrdude.conf
 
+SKETCHBOOK_DIR=~/sketchbook
+
 include ../Arduino-Makefile/arduino-mk/Arduino.mk
+
+install:
+	mkdir -p $(SKETCHBOOK_DIR)/libraries/troika
+	cp -r * $(SKETCHBOOK_DIR)/libraries/troika/
+
+.PHONY: install
 
