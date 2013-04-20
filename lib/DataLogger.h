@@ -31,7 +31,9 @@ class DataLogger
 
     byte addIntSetting(char* name, int* variable);
     byte addFloatSetting(char* name, float* variable);
-    
+
+    byte setSetting(byte setting, char* val);
+
     byte writeSeries();
     byte writeSettings();
 

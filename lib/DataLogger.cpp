@@ -76,6 +76,16 @@ byte DataLogger::addSetting(Setting* setting)
   return 0;
 }
 
+byte DataLogger::setSetting(byte setting, char* val)
+{
+  if(setting > NUM_SETTINGS || settings[setting] == NULL)
+  {
+    return OUT_OF_RANGE;
+  }
+
+  return settings[setting]->parseData(val);
+}
+
 byte DataLogger::writeSeries()
 {
   for(byte i = 0; i < NUM_SERIES; i++)

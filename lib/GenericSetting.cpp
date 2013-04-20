@@ -5,12 +5,14 @@ template<>
 byte GenericSetting<int>::parseData(char* data)
 {
   *var = atoi(data);
+  return 0;
 }
 
 template<>
 byte GenericSetting<float>::parseData(char* data)
 {
   *var = atof(data);
+  return 0;
 }
 
 template<class T>
