@@ -8,11 +8,11 @@
 #include "types.h"
 
 #ifndef NUM_SERIES
-#define NUM_SERIES 16
+#define NUM_SERIES 8
 #endif
 
 #ifndef NUM_SETTINGS
-#define NUM_SETTINGS 16
+#define NUM_SETTINGS 8
 #endif
 
 #ifndef SETTING_BUF_SZ
