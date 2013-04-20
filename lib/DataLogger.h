@@ -19,10 +19,6 @@
 #define SETTING_BUF_SZ 128
 #endif
 
-class DataLogger;
-
-extern DataLogger* __dl;
-
 void serialEvent();
 
 class DataLogger
