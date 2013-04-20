@@ -10,3 +10,15 @@ Setting metadata:
 	where setting type is one of the following:
 		0 - int
 		1 - float
+
+Input formats:
+
+Get data series metadata:
+d
+
+Get settings metadata:
+g
+
+Set setting:
+s,<setting number>,<setting value>
+

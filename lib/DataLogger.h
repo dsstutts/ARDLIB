@@ -15,6 +15,10 @@
 #define NUM_SETTINGS 16
 #endif
 
+#ifndef SETTING_BUF_SZ
+#define SETTING_BUF_SZ 128
+#endif
+
 class DataLogger;
 
 extern DataLogger* __dl;
