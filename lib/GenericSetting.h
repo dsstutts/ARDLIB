@@ -2,6 +2,7 @@
 #define GENERIC_SETTING_H
 
 #include "Setting.h"
+#include "constants.h"
 #include "types.h"
 
 template<class T>
