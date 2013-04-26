@@ -1,3 +1,6 @@
 # Ignore the following:
 *.DS_Store
 *.Apple*
+.*.swp
+lib/build-uno
+
