@@ -6,77 +6,115 @@ void serialEvent()
 {
   while(Serial.available())
   {
+    char in = (char)Serial.read();
+
     if(__dl == NULL)
     {
       continue;
     }
 
-    char in = (char)Serial.read();
-    switch(in)
-    {
-      // Write series metadata
-      case 'd':
-        __dl->writeSeries();
-        break;
-        
-      // Write settings metadata
-      case 'g':
-        __dl->writeSettings();
-        break;
+    State& state = __dl->state;
 
-      // Get setting data
-      // TODO: currently blocking, definitely not very nice.
-      // I am actually really embarrased by this code. Please pretend it doesn't exist.
-      case 's':
-        // get comma
-        while(!Serial.available());
-        in = (char)Serial.read();
-        if(in != ',')
-        {
-          continue;
-        }
-       
-        // get setting number
-        char buf[SETTING_BUF_SZ];
-        byte i;
-        // build char* of setting number
-        for(i = 0; i < SETTING_BUF_SZ; i++)
-        {
-          while(!Serial.available());
-          in = (char)Serial.read();
-          buf[i] = in;
+#ifdef SERIAL_DEBUG
+    Serial.print("Received char: ");
+    Serial.println(in);
+    Serial.print("Buf index: ");
+    Serial.println(state.sz);
+#endif
+
+    state.buf[state.sz++] = in;
+
+    if(in == ',' || in == '\r' || in == '\n')
+    {
+
+#ifdef SERIAL_DEBUG
+      Serial.println("*** State transition");
+#endif
+
+      switch(state.state)
+      {
+        case State::COMMAND:
+
+#ifdef SERIAL_DEBUG
+          Serial.println("Current State: COMMAND");
+          Serial.print("Command recieved: ");
+          Serial.println(state.buf[0]);
+#endif
+
+          switch(state.buf[0])
+          {
+            case 'd':
+              __dl->writeSeries();
+#ifdef SERIAL_DEBUG
+              Serial.println("Next State: COMMAND");
+#endif
+              break;
+
+            case 'g':
+              __dl->writeSettings();
+#ifdef SERIAL_DEBUG
+              Serial.println("Next State: COMMAND");
+#endif
+              break;
+
+            case 's':
+              state.state = State::INDEX;
+#ifdef SERIAL_DEBUG
+              Serial.println("Next State: INDEX");
+#endif
+              break;
+          }
+          
+          break;
+
+        case State::INDEX:
+#ifdef SERIAL_DEBUG
+          Serial.println("Current State: INDEX");
+#endif
           if(in == ',')
           {
-            i++;
-            break;
-          }
+            state.buf[state.sz - 1] = '\0';
+            state.index = atoi(state.buf);
+            state.state = State::VALUE;
 
-          // really crappy error checking
-          if(in == '\n')
+#ifdef SERIAL_DEBUG
+            Serial.print("Index recieved: ");
+            Serial.println(state.index);
+            Serial.println("Next State: VALUE");
+#endif
+          }
+          else
           {
-            return;
-          }
-        }
-        buf[i-1] = '\0';
-        byte setnum = atoi(buf);
+            state.state = State::COMMAND;
 
-        // get setting value into buffer
-        for(i = 0; i < SETTING_BUF_SZ; i++)
-        {
-          while(!Serial.available());
-          in = (char)Serial.read();
-          buf[i] = in;
-          if(in == '\n' || in == '\r')
-          {
-            i++;
-            break;
+#ifdef SERIAL_DEBUG
+            Serial.println("Next State: COMMAND");
+#endif
           }
-        }
-        buf[i-1] = '\0';
 
-        // update setting
-        __dl->setSetting(setnum, buf);
-        break;
+          break;
+
+        case State::VALUE:
+#ifdef SERIAL_DEBUG
+          Serial.println("Current State: VALUE");
+#endif
+          state.buf[state.sz - 1] = '\0';
+          __dl->setSetting(state.index, state.buf);
+          state.state = State::COMMAND;
+#ifdef SERIAL_DEBUG
+          Serial.println("Next State: COMMAND");
+#endif
+          break;
+
+        default:
+          state.state = State::COMMAND;
+#ifdef SERIAL_DEBUG
+          Serial.println("Next State: COMMAND");
+#endif
+          break;
+      }
+
+      state.sz = 0;
     }
   }
 }

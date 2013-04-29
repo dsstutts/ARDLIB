@@ -1,13 +1,6 @@
 #ifndef DATALOGGER_H
 #define DATALOGGER_H
 
-#include <Arduino.h>
-#include "Series.h"
-#include "Setting.h"
-#include "GenericSetting.h"
-#include "constants.h"
-#include "types.h"
-
 /** 
  * The maxiumum number of data streams. 
  * To change, simply define NUM_SERIES before including DataLogger.h.
@@ -30,6 +23,14 @@
 #ifndef SETTING_BUF_SZ
 #define SETTING_BUF_SZ 64
 #endif
+
+#include <Arduino.h>
+#include "Series.h"
+#include "Setting.h"
+#include "GenericSetting.h"
+#include "constants.h"
+#include "types.h"
+#include "State.h"
 
 /**
  * serialEvent() is overridden here to do serial I/O for the library.
@@ -115,6 +116,7 @@ class DataLogger
      */
     byte writeSettings();
 
+    State state;
   protected:
     //NOTE: may break if provided a non-dynamic setting
     byte addSetting(Setting* setting);
